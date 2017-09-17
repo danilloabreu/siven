@@ -1,60 +1,30 @@
 <?php
 
-class Cliente{
+class Produto{
     
     //variáveis do banco de dados
-    private static $tableDb="cliente";    
+    private static $tableDb="produto";    
     private static $tableColumns = array(
     "id"=>null,
     "nome"=>null,
-    "telefone"=>null,
-    "endereco"=>null,
+    "marca"=>null,
+    "unidade"=>null,
+    "tipo"=>null,
   );
-    
     public $id;
     public $nome;
-    public $telefone;
-    public $endereco;
-    
-    
-    function __construct($id, $nome, $telefone, $endereco) {
+    public $marca;
+    public $unidade;
+    public $tipo;
+   
+    function __construct($id, $nome, $marca, $unidade, $tipo) {
         $this->id = $id;
         $this->nome = $nome;
-        $this->telefone = $telefone;
-        $this->endereco = $endereco;
+        $this->marca = $marca;
+        $this->unidade = $unidade;
+        $this->tipo = $tipo;
     }
 
-    function getId() {
-        return $this->id;
-    }
-
-    function getNome() {
-        return $this->nome;
-    }
-
-    function getTelefone() {
-        return $this->telefone;
-    }
-
-    function getEndereco() {
-        return $this->endereco;
-    }
-
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setNome($nome) {
-        $this->nome = $nome;
-    }
-
-    function setTelefone($telefone) {
-        $this->telefone = $telefone;
-    }
-
-    function setEndereco($endereco) {
-        $this->endereco = $endereco;
-    }
 
     
 public static function read ($conexao,$condicao){
@@ -158,15 +128,16 @@ public function create($conexao){
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("INSERT INTO cliente (id,nome,endereco,telefone)"
-                . "VALUES (?,?,?,?)")){
+    if($query=$conexao->prepare("INSERT INTO produto (id,nome,marca,unidade,tipo)"
+                . "VALUES (?,?,?,?,?)")){
         //passando variaveis para a query
             try{              
-                $query->bind_param('ssss',
-                $this->getId(),
-                $this->getNome(),
-                $this->getEndereco(),
-                $this->getTelefone()
+                $query->bind_param('sssss',
+                $this->id,
+                $this->nome,
+                $this->marca,
+                $this->unidade,
+                $this->tipo        
                 );
         $resultado=$query->execute();
         }
@@ -223,5 +194,5 @@ public function update($conexao){
  
  
  
-}//fim da classe Cliente
+}//fim da classe Produto
 

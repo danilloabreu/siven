@@ -1,63 +1,60 @@
 <?php
 
-class Cliente{
+class ItemPedido{
     
     //variáveis do banco de dados
-    private static $tableDb="cliente";    
+    private static $tableDb="item_pedido";    
     private static $tableColumns = array(
     "id"=>null,
-    "nome"=>null,
-    "telefone"=>null,
-    "endereco"=>null,
+    "id_pedido"=>null,
+    "id_produto"=>null,
+    "qtd"=>null,
+    "valor_unitario"=>null,
+    "valor_total"=>null,
   );
     
     public $id;
-    public $nome;
-    public $telefone;
-    public $endereco;
+    public $id_pedido;
+    public $id_produto;
+    public $qtd;
+    public $valor_unitario;
+    public $valor_total;
     
-    
-    function __construct($id, $nome, $telefone, $endereco) {
-        $this->id = $id;
-        $this->nome = $nome;
-        $this->telefone = $telefone;
-        $this->endereco = $endereco;
-    }
-
     function getId() {
         return $this->id;
     }
 
-    function getNome() {
-        return $this->nome;
+    function getId_pedido() {
+        return $this->id_pedido;
     }
 
-    function getTelefone() {
-        return $this->telefone;
+    function getId_produto() {
+        return $this->id_produto;
     }
 
-    function getEndereco() {
-        return $this->endereco;
+    function getQtd() {
+        return $this->qtd;
     }
 
-    function setId($id) {
+    function getValor_unitario() {
+        return $this->valor_unitario;
+    }
+
+    function getValor_total() {
+        return $this->valor_total;
+    }
+
+    function __construct($id, $id_pedido, $id_produto, $qtd, $valor_unitario, $valor_total) {
         $this->id = $id;
+        $this->id_pedido = $id_pedido;
+        $this->id_produto = $id_produto;
+        $this->qtd = $qtd;
+        $this->valor_unitario = $valor_unitario;
+        $this->valor_total = $valor_total;
     }
 
-    function setNome($nome) {
-        $this->nome = $nome;
-    }
 
-    function setTelefone($telefone) {
-        $this->telefone = $telefone;
-    }
-
-    function setEndereco($endereco) {
-        $this->endereco = $endereco;
-    }
-
-    
-public static function read ($conexao,$condicao){
+    public static function read ($conexao,$condicao){
     $sql="SELECT ";
     
     foreach(self::$tableColumns as $key => $keyValue){
@@ -158,15 +155,17 @@ public function create($conexao){
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("INSERT INTO cliente (id,nome,endereco,telefone)"
-                . "VALUES (?,?,?,?)")){
+    if($query=$conexao->prepare("INSERT INTO item_pedido (id,id_pedido,id_produto,qtd,valor_unitario,valor_total)"
+                . "VALUES (?,?,?,?,?,?)")){
         //passando variaveis para a query
             try{              
-                $query->bind_param('ssss',
-                $this->getId(),
-                $this->getNome(),
-                $this->getEndereco(),
-                $this->getTelefone()
+                $query->bind_param('ssssss',
+                $this->id,
+                $this->id_pedido,
+                $this->id_produto,
+                $this->qtd,
+                $this->valor_unitario,
+                $this->valor_total        
                 );
         $resultado=$query->execute();
         }

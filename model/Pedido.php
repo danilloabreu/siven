@@ -1,63 +1,38 @@
 <?php
 
-class Cliente{
+class Pedido{
     
     //variáveis do banco de dados
-    private static $tableDb="cliente";    
+    private static $tableDb="pedido";    
     private static $tableColumns = array(
     "id"=>null,
-    "nome"=>null,
-    "telefone"=>null,
-    "endereco"=>null,
+    "id_cliente"=>null,
+    "data_inclusao"=>null,
+    "is_canceled"=>null,
+    "is_deleted"=>null,
+    "data_entrega"=>null,
+    "observacao"=>null,    
   );
     
     public $id;
-    public $nome;
-    public $telefone;
-    public $endereco;
+    public $id_cliente;
+    public $data_inclusao;
+    public $is_canceled;
+    public $is_deleted;
+    public $data_entrega;
+    public $observacao;
     
-    
-    function __construct($id, $nome, $telefone, $endereco) {
+    function __construct($id, $id_cliente, $data_inclusao, $is_canceled, $is_deleted, $data_entrega, $observacao) {
         $this->id = $id;
-        $this->nome = $nome;
-        $this->telefone = $telefone;
-        $this->endereco = $endereco;
+        $this->id_cliente = $id_cliente;
+        $this->data_inclusao = $data_inclusao;
+        $this->is_canceled = $is_canceled;
+        $this->is_deleted = $is_deleted;
+        $this->data_entrega = $data_entrega;
+        $this->observacao = $observacao;
     }
 
-    function getId() {
-        return $this->id;
-    }
-
-    function getNome() {
-        return $this->nome;
-    }
-
-    function getTelefone() {
-        return $this->telefone;
-    }
-
-    function getEndereco() {
-        return $this->endereco;
-    }
-
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setNome($nome) {
-        $this->nome = $nome;
-    }
-
-    function setTelefone($telefone) {
-        $this->telefone = $telefone;
-    }
-
-    function setEndereco($endereco) {
-        $this->endereco = $endereco;
-    }
-
-    
-public static function read ($conexao,$condicao){
+        public static function read ($conexao,$condicao){
     $sql="SELECT ";
     
     foreach(self::$tableColumns as $key => $keyValue){
@@ -158,15 +133,18 @@ public function create($conexao){
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("INSERT INTO cliente (id,nome,endereco,telefone)"
-                . "VALUES (?,?,?,?)")){
+    if($query=$conexao->prepare("INSERT INTO pedido (id,id_cliente,data_inclusao,is_canceled,is_deleted,data_entrega,observacao)"
+                . "VALUES (?,?,?,?,?,?,?)")){
         //passando variaveis para a query
             try{              
-                $query->bind_param('ssss',
-                $this->getId(),
-                $this->getNome(),
-                $this->getEndereco(),
-                $this->getTelefone()
+                $query->bind_param('sssssss',
+                $this->id,
+                $this->id_cliente,
+                $this->data_inclusao,
+                $this->is_canceled,
+                $this->is_deleted,
+                $this->is_canceled,        
+                $this->observacao        
                 );
         $resultado=$query->execute();
         }
@@ -223,5 +201,7 @@ public function update($conexao){
  
  
  
-}//fim da classe Cliente
+}//fim da classe Pedido
+
+
 
