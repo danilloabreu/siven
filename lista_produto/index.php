@@ -1,19 +1,3 @@
-<?php
-$path = $_SERVER['DOCUMENT_ROOT'];
-require_once ($path . '/siven/model/Produto.php');
-require_once ($path . '/siven/model/Unidade.php');
-require_once ($path . '/siven/model/conexao.php');
-
-if(isset($_GET['id'])){
-$produto = Produto::read($conexao, "id=".$_GET['id']);
-$produto=$produto[0];
-//var_dump($produto);
-}else{
-$produto= new Produto($id=null, $nome=null, $marca=null, $unidade=null, $tipo=null);    
-}
-    
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -47,49 +31,15 @@ $produto= new Produto($id=null, $nome=null, $marca=null, $unidade=null, $tipo=nu
   <body>
 
     <?php require("../header.php") ?>
-    
+
 <div class="container">
     <h1>Cadastro de Produtos</h1><hr> 
-<form>
-    <div class="grid">
-        <div class="row">  
-            <div class="form-group col-sm-4">
-                <label for="nomeProduto">Nome do Produto</label>
-                <input type="text" class="form-control" id="nomeProduto" value="<?= $produto->nome ?>">
-            </div>
-            <div class="form-group col-sm-3">
-                <label for="marcaProduto">Marca</label>
-                <input type="text" class="form-control" id="marcaProduto"value="<?= $produto->marca ?>">
-            </div>
-            <div class="form-group col-sm-3">
-                <label for="unidadeProduto">Unidade</label>
-                <input type="text" class="form-control" id="unidadeProduto" value="<?= $produto->unidade ?>">
-            </div>
-            <div class="form-group col-sm-2">
-                <label for="idProduto">Id</label>
-                <input type="text" class="form-control" id="idProduto" value="<?= $produto->id ?>" disabled="true">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-12">
-                 <label for="tipoProduto">Tipo</label>
-                <input type="text" class="form-control" id="tipoProduto" value="<?= $produto->tipo ?>">
-             </div>
-        </div>
-        <div class="form-group">
-            <button type='button' class="btn btn-success" id='inserirProduto'><?php echo (isset($_GET['id'])) ? "Alterar" : "Salvar"; ?></button>
-        </div>
-        
-        <?=Unidade::htmlSelect($conexao,3);?>
-    </div>
-    
-    </form>
-
-
-
+    <a  class="btn btn-success" href="/siven/cadastro_produto">Novo</a>        
 </div> <!-- /container -->
 
-
+<div class="container" id='listaProdutos'>
+     <?= require 'listar_produtos.php'?>;
+</div> <!-- /container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

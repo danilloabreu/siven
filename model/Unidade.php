@@ -1,32 +1,22 @@
 <?php
 
-class Produto{
+class Unidade{
     
     //variáveis do banco de dados
-    private static $tableDb="produto";    
+    private static $tableDb="unidade";    
     private static $tableColumns = array(
     "id"=>null,
-    "nome"=>null,
-    "marca"=>null,
-    "unidade"=>null,
-    "tipo"=>null,
+    "unidade"=>null,  
   );
+    
     public $id;
-    public $nome;
-    public $marca;
     public $unidade;
-    public $tipo;
-   
-    function __construct($id, $nome, $marca, $unidade, $tipo) {
+    
+    function __construct($id, $unidade) {
         $this->id = $id;
-        $this->nome = $nome;
-        $this->marca = $marca;
         $this->unidade = $unidade;
-        $this->tipo = $tipo;
     }
 
-
-    
 public static function read ($conexao,$condicao){
     $sql="SELECT ";
     
@@ -123,21 +113,24 @@ $param=array();
     return $listaResultado;
 }
 
+//to do
 public function create($conexao){
      
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("INSERT INTO produto (id,nome,marca,unidade,tipo)"
-                . "VALUES (?,?,?,?,?)")){
+    if($query=$conexao->prepare("INSERT INTO pedido (id,id_cliente,data_inclusao,is_canceled,is_deleted,data_entrega,observacao)"
+                . "VALUES (?,?,?,?,?,?,?)")){
         //passando variaveis para a query
             try{              
-                $query->bind_param('sssss',
+                $query->bind_param('sssssss',
                 $this->id,
-                $this->nome,
-                $this->marca,
-                $this->unidade,
-                $this->tipo        
+                $this->id_cliente,
+                $this->data_inclusao,
+                $this->is_canceled,
+                $this->is_deleted,
+                $this->is_canceled,        
+                $this->observacao        
                 );
         $resultado=$query->execute();
         }
@@ -157,21 +150,22 @@ public function create($conexao){
          
      
  }//fim da funçao create
-  
+
+ //to do
 public function update($conexao){
      
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("UPDATE produto SET nome=?,marca=?,unidade=?,tipo=?"
-                ." WHERE id=".$this->id)){
+    if($query=$conexao->prepare("UPDATE cliente SET id=?,nome=?,endereco=?,telefone=?)"
+                . "VALUES (?,?,?,?)")){
         //passando variaveis para a query
             try{              
                 $query->bind_param('ssss',
-                $this->nome,
-                $this->marca,
-                $this->unidade,
-                $this->tipo
+                $this->getId(),
+                $this->getNome(),
+                $this->getEndereco(),
+                $this->getTelefone()
                 );
         $resultado=$query->execute();
         }
@@ -192,7 +186,21 @@ public function update($conexao){
      
  }//fim da funçao update
  
+public static function htmlSelect($conexao,$idSelected){
+   
+$listaResultado= self::read($conexao, true);
+ 
+$select="<select>";
+        
+        foreach($listaResultado as $val ){
+        $select.="<option value=".$val->unidade.">".$val->unidade."</option>";    
+        }
+$select.="</select>";
+return $select;
+}
  
  
-}//fim da classe Produto
+}//fim da classe Unidade
+
+
 

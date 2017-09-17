@@ -22,7 +22,6 @@ $(document).on('click','.editar',function(){
 $(document).on('click','#inserirProduto',function(){
     
     $.post('inserir_produto.php',{
-        id: $('#idProduto').val(),
         nomeProduto: $('#nomeProduto').val(),
         marcaProduto: $('#marcaProduto').val(),
         unidadeProduto: $('#unidadeProduto').val(),
@@ -30,10 +29,10 @@ $(document).on('click','#inserirProduto',function(){
     }, function(data){
       alert(data);
           //carregar itens do pedido
-        //$('#nomeProduto').val(''),
-        //$('#marcaProduto').val(''),
-        //$('#unidadeProduto').val(''),
-        //$('#tipoProduto').val('')
+        $('#nomeProduto').val(''),
+        $('#marcaProduto').val(''),
+        $('#unidadeProduto').val(''),
+        $('#tipoProduto').val('')
 
     });//fim do post
     

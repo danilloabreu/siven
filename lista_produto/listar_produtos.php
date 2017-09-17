@@ -26,7 +26,7 @@ $html.="<tbody>";
     $html.="<td class='text-center'>".$listaProdutos[$i]->marca."</td>";
     $html.="<td class='text-center'>".$listaProdutos[$i]->unidade."</td>";
     $html.="<td class='text-center'>".$listaProdutos[$i]->tipo."</td>";
-    $html.="<td class='text-center'><a href='#'><i class='fa fa-pencil-square-o fa-4 editar'></i></a> <i class='fa fa-trash-o fa-4' aria-hidden='true'></i></td>";
+    $html.="<td class='text-center'><a href='/siven/cadastro_produto/?id=".$listaProdutos[$i]->id."'><i class='fa fa-pencil-square-o fa-4 editar'></i></a> <i class='fa fa-trash-o fa-4' aria-hidden='true'></i></td>";
     $html.="</tr>";
 }
 $html.="</tbody>";
