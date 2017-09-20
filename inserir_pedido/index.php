@@ -22,6 +22,7 @@
     <link href="/siven/util/jqueryui/jquery-ui.structure.min.css" rel="stylesheet">
     <link href="/siven/util/jqueryui/jquery-ui.theme.min.css" rel="stylesheet">
 
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -35,50 +36,70 @@
     <?php require("../header.php") ?>
 
 <div class="container">
-    <h1>Pedidos</h1><hr> 
-         <form>
-            <div class="grid">
-                <div class="row">  
-                    <div class="form-group col-sm-8">
-                        <label for="nomeClientePedido">Nome do Cliente</label>
-                        <input type="text" class="form-control" id="nomeClientePedido" placeholder="Nome do Cliente">
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <label for="dataEntregaPedido">Data da Entrega</label>
-                        <input type="text" class="form-control" id="dataEntregaPedido" placeholder="">
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                         <label for="observacaoPedido">Observações</label>
-                         <textarea class="form-control" rows="4" id="observacaoPedido" placeholder="Observações do pedido"></textarea>
-                    </div>
-                </div>
-            </div>
-        </form>
-</div>
-<div class="container">        
-        <button type="button" class="btn btn-success" id='adicionarPedido'>Incluir</button>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
-        <button type="button" class="btn btn-warning" >Histórico</button>
-        <button type="button" class="btn btn-default" >Consultar Estoque</button>
-</div>
-<div class="container">      
+    <h1>Pedido de Venda</h1> 
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#listaItens">Itens</a></li>
-    <li><a data-toggle="tab" href="#menu1">Financeiro</a></li>
-    <li><a data-toggle="tab" href="#menu2">Histórico do Cliente</a></li>
+    <li class="active"><a data-toggle="tab" href="#listaItens">Cliente</a></li>
+    <li><a data-toggle="tab" href="#menu1">Itens</a></li>
+    <li><a data-toggle="tab" href="#menu2">Entrega</a></li>
+    <li><a data-toggle="tab" href="#menu2">Parcelas</a></li>
+    <li><a data-toggle="tab" href="#menu2">Observações</a></li>
+    <li><a href="#">Pedido</a></li>
 </ul>
 </div>        
 <div class="container">
 <div class="tab-content">
   <div id="listaItens" class="tab-pane fade in active col-sm-12">
-      
+    <form>
+            <div class="grid">
+                <div class="row">  
+                    <div class="form-group col-sm-4">
+                        <label for="idCliente">Id do Cliente</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="idClientePedido">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1">
+                                    <i class="fa fa-question-circle-o"></i>
+                                </button>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="nomeCliente">Nome do Cliente</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="nomeCliente" readonly="readonly" value="dandan" tabindex="-1" >
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1" disabled="disabled">
+                                    <i class="fa fa-question-circle-o"></i>
+                                </button>
+                            </div> 
+                        </div>    
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="dataEntregaPedido">Data da Entrega</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control inputData" id="dataEntregaPedido">
+                            <span class="input-group-addon"><a data-toggle="modal" data-target="#adicionarItemModal"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a></span>
+                        </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                         <label for="observacaoPedido">Observações</label>
+              
+                         <textarea class="form-control" rows="4" id="observacaoPedido" placeholder="Observações do pedido"></textarea>
+                            
+                          </div>
+                </div>
+            </div>
+           
+        </form>   
   </div>
   <div id="menu1" class="tab-pane fade">
-    <h3>Menu 1</h3>
-    <p>Some content in menu 1.</p>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
+    <button type="button" class="btn btn-warning" >Histórico</button>
+    <button type="button" class="btn btn-default" >Consultar Estoque</button>
+    <div id="menu11">
+    </div>
   </div>
   <div id="menu2" class="tab-pane fade">
     <h3>Menu 2</h3>
@@ -86,8 +107,15 @@
   </div>
 </div>    
 </div>    
-      
-  <!-- Modal -->
+            
+<div class="container">        
+        <button type="button" class="btn btn-success" id='adicionarPedido'>Incluir</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
+        <button type="button" class="btn btn-warning" >Histórico</button>
+        <button type="button" class="btn btn-default" >Consultar Estoque</button>
+</div>
+
+  <!-- Modal - Adicionar Item -->
   <div class="modal fade" id="adicionarItemModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -98,12 +126,12 @@
         <div class="modal-body">
             <div class="row">
         <div class="form-group col-sm-4">
-            <label for="codigo">Código</label>
-            <input type="text" class="form-control" id="codigoItem" placeholder="código">
+            <label for="idProdutoModal">Código</label>
+            <input type="text" class="form-control" id="idProdutoModal" placeholder="código">
         </div>
         <div class="form-group col-sm-8">
-            <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nomeItem" placeholder="nome">
+            <label for="nomeProdutoModal">Nome</label>
+            <input type="text" class="form-control" id="nomeProdutoModal" placeholder="nome">
         </div>
         </div>
         <div class="row">
@@ -116,7 +144,7 @@
             <input type="number" class="form-control" id="valorItem" placeholder="">
         </div>
         <div class="form-group col-sm-4">
-            <label for="total">Total</label>
+            <label for="totalItem">Total</label>
             <input type="number" class="form-control" id="totalItem" placeholder="">
         </div>        
             </div>

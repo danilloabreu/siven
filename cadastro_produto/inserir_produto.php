@@ -8,7 +8,7 @@ $id=$_POST['id'];
 $nome=$_POST['nomeProduto'];
 $marca=$_POST['marcaProduto'];
 $unidade=$_POST['unidadeProduto'];
-$tipo=$_POST['tipoProduto'];
+$tipo=$_POST["tipoProduto"];
 
 $produto = new Produto($id, $nome, $marca, $unidade, $tipo);
 

@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once ($path . '/siven/model/Produto.php');
 require_once ($path . '/siven/model/Unidade.php');
+require_once ($path . '/siven/model/Tipo.php');
 require_once ($path . '/siven/model/conexao.php');
 
 if(isset($_GET['id'])){
@@ -63,7 +64,7 @@ $produto= new Produto($id=null, $nome=null, $marca=null, $unidade=null, $tipo=nu
             </div>
             <div class="form-group col-sm-3">
                 <label for="unidadeProduto">Unidade</label>
-                <input type="text" class="form-control" id="unidadeProduto" value="<?= $produto->unidade ?>">
+                 <?=Unidade::htmlSelect($conexao,$produto->unidade);?>
             </div>
             <div class="form-group col-sm-2">
                 <label for="idProduto">Id</label>
@@ -73,14 +74,15 @@ $produto= new Produto($id=null, $nome=null, $marca=null, $unidade=null, $tipo=nu
         <div class="row">
             <div class="form-group col-sm-12">
                  <label for="tipoProduto">Tipo</label>
-                <input type="text" class="form-control" id="tipoProduto" value="<?= $produto->tipo ?>">
+                 <?=Tipo::htmlSelect($conexao,$produto->tipo);?>
              </div>
+            
         </div>
         <div class="form-group">
             <button type='button' class="btn btn-success" id='inserirProduto'><?php echo (isset($_GET['id'])) ? "Alterar" : "Salvar"; ?></button>
         </div>
         
-        <?=Unidade::htmlSelect($conexao,3);?>
+        
     </div>
     
     </form>

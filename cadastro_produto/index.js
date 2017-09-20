@@ -1,5 +1,9 @@
 $( document ).ready(function() {
 
+var itens = new Array();
+
+
+
 //carregar itens do pedido
 //$('#listaProdutos').load('listar_produtos.php');
 
@@ -26,7 +30,7 @@ $(document).on('click','#inserirProduto',function(){
         nomeProduto: $('#nomeProduto').val(),
         marcaProduto: $('#marcaProduto').val(),
         unidadeProduto: $('#unidadeProduto').val(),
-        tipoProduto:  $('#tipoProduto').val()
+        tipoProduto:  $('#tipoProduto').val(),
     }, function(data){
       alert(data);
           //carregar itens do pedido

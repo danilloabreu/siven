@@ -1,20 +1,20 @@
 <?php
 
-class Unidade{
+class Tipo{
     
     //variáveis do banco de dados
-    private static $tableDb="unidade";    
+    private static $tableDb="tipo";    
     private static $tableColumns = array(
     "id"=>null,
-    "unidade"=>null,  
+    "tipo"=>null,  
   );
     
     public $id;
-    public $unidade;
+    public $tipo;
     
-    function __construct($id, $unidade) {
+    function __construct($id, $tipo) {
         $this->id = $id;
-        $this->unidade = $unidade;
+        $this->tipo = $tipo;
     }
 
 public static function read ($conexao,$condicao){
@@ -186,21 +186,19 @@ public function update($conexao){
      
  }//fim da funçao update
  
-public static function htmlSelect($conexao,$unidade){
+public static function htmlSelect($conexao,$tipo){
    
 $listaResultado= self::read($conexao, true);
  
-$select="<select class='form-control col-sm-3' id='unidadeProduto'>";
+$select="<select class='form-control col-sm-3' id='tipoProduto'>";
         
         foreach($listaResultado as $val ){
-        if($val->unidade==$unidade){
+        if($val->tipo==$tipo){
         $selected='selected';   
         }else{
         $selected='';    
         }
-        $select.="<option value= '$val->unidade' $selected>".$val->unidade."</option>";    
-        //echo $val->unidade;
-        
+        $select.="<option value=".$val->tipo." $selected>".$val->tipo."</option>";    
         }
 $select.="</select>";
 return $select;

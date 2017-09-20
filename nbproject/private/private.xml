@@ -5,6 +5,9 @@
         <group>
             <file>file:/C:/xampp/htdocs/SiVen/model/Unidade.php</file>
             <file>file:/C:/xampp/htdocs/SiVen/cadastro_produto/index.php</file>
+            <file>file:/C:/xampp/htdocs/SiVen/cadastro_produto/inserir_produto.php</file>
+            <file>file:/C:/xampp/htdocs/SiVen/model/Tipo.php</file>
+            <file>file:/C:/xampp/htdocs/SiVen/cadastro_produto/index.js</file>
         </group>
     </open-files>
 </project-private>

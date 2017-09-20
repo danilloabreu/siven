@@ -11,6 +11,7 @@ class ItemPedido{
     "qtd"=>null,
     "valor_unitario"=>null,
     "valor_total"=>null,
+    "data_entrega"=>null,
   );
     
     public $id;
@@ -19,6 +20,7 @@ class ItemPedido{
     public $qtd;
     public $valor_unitario;
     public $valor_total;
+    public $data_entrega;
     
     function getId() {
         return $this->id;
@@ -44,16 +46,17 @@ class ItemPedido{
         return $this->valor_total;
     }
 
-    function __construct($id, $id_pedido, $id_produto, $qtd, $valor_unitario, $valor_total) {
+    function __construct($id, $id_pedido, $id_produto, $qtd, $valor_unitario, $valor_total, $data_entrega) {
         $this->id = $id;
         $this->id_pedido = $id_pedido;
         $this->id_produto = $id_produto;
         $this->qtd = $qtd;
         $this->valor_unitario = $valor_unitario;
         $this->valor_total = $valor_total;
+        $this->data_entrega = $data_entrega;
     }
 
-
+    
     public static function read ($conexao,$condicao){
     $sql="SELECT ";
     
@@ -150,22 +153,24 @@ $param=array();
     return $listaResultado;
 }
 
+//todo -> inserir data entrega
 public function create($conexao){
      
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("INSERT INTO item_pedido (id,id_pedido,id_produto,qtd,valor_unitario,valor_total)"
-                . "VALUES (?,?,?,?,?,?)")){
+    if($query=$conexao->prepare("INSERT INTO item_pedido (id,id_pedido,id_produto,qtd,valor_unitario,valor_total,data_entrega)"
+                . "VALUES (?,?,?,?,?,?,?)")){
         //passando variaveis para a query
             try{              
-                $query->bind_param('ssssss',
+                $query->bind_param('sssssss',
                 $this->id,
                 $this->id_pedido,
                 $this->id_produto,
                 $this->qtd,
                 $this->valor_unitario,
-                $this->valor_total        
+                $this->valor_total,
+                $this->data_entrega                        
                 );
         $resultado=$query->execute();
         }
