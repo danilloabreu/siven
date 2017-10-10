@@ -10,8 +10,8 @@ $senha = $xml->senha;
 $bd = $xml->bd;
 */
 //conectando ao servidor
-$conexao = mysqli_connect('127.0.0.1', "root", "","siven");     
-     
+//$conexao = mysqli_connect('127.0.0.1', "root", "","siven");     
+$conexao = mysqli_connect('192.168.1.47', "root", "","siven");          
 //$conexao = mysqli_connect($host,$usuario,$senha,$bd);
 
 // Caso a conexão seja reprovada, exibe na tela uma mensagem de erro

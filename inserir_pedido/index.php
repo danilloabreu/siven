@@ -14,10 +14,12 @@ $pedido = Pedido::read($conexao, "id=".$_GET['id']);
 $pedido=$pedido[0];
 $cliente = Cliente::read($conexao, "id=$pedido->id_cliente");
 $cliente=$cliente[0];
+$alterar=true;
 
 }else{
 $pedido= new Pedido($id=null, $id_cliente=null, $data_inclusao=null, $is_canceled=null, $is_deleted=null, $data_entrega=null, $observacao=null);
 $cliente = new Cliente($id=null, $nome=null, $telefone=null, $endereco=null);
+$alterar=false;
 
 }    
 ?>
@@ -129,8 +131,13 @@ $cliente = new Cliente($id=null, $nome=null, $telefone=null, $endereco=null);
                 </div>
             </div>
         </form>
-    <button type="button" class="btn btn-success" id='adicionarPedido'>Incluir</button>
-  </div><!-- fim aba cliente -->
+    <?php if($alterar){ 
+    echo "<button type='button' class='btn btn-success' id='adicionarPedido'>Incluir</button>";
+    }else{
+    echo "<button type='button' class='btn btn-success' id='alterarPedido'>Alterar</button>";    
+    } 
+        ?>
+            </div><!-- fim aba cliente -->
     
   <div id="menu1" class="tab-pane fade">
     <!--<button type="button" class="btn btn-warning" >Histórico</button>-->
