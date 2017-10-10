@@ -1,3 +1,27 @@
+<?php
+$path = $_SERVER['DOCUMENT_ROOT'];
+require_once ($path . '/siven/model/Pedido.php');
+require_once ($path . '/siven/model/Cliente.php');
+require_once ($path . '/siven/model/conexao.php');
+
+header("Cache-Control: no-store, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
+
+if(isset($_GET['id'])){
+$pedido = Pedido::read($conexao, "id=".$_GET['id']);
+$pedido=$pedido[0];
+$cliente = Cliente::read($conexao, "id=$pedido->id_cliente");
+$cliente=$cliente[0];
+
+}else{
+$pedido= new Pedido($id=null, $id_cliente=null, $data_inclusao=null, $is_canceled=null, $is_deleted=null, $data_entrega=null, $observacao=null);
+$cliente = new Cliente($id=null, $nome=null, $telefone=null, $endereco=null);
+
+}    
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -34,20 +58,22 @@
   <body>
 
     <?php require("../header.php") ?>
-
+<!--Container da Tabulação-->
 <div class="container">
     <h1>Pedido de Venda</h1> 
-  <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#listaItens">Cliente</a></li>
-    <li><a data-toggle="tab" href="#menu1">Itens</a></li>
-    <li><a data-toggle="tab" href="#menu2">Entrega</a></li>
-    <li><a data-toggle="tab" href="#menu2">Parcelas</a></li>
-    <li><a data-toggle="tab" href="#menu2">Observações</a></li>
-    <li><a href="#">Pedido</a></li>
-</ul>
-</div>        
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#listaItens">Cliente</a></li>
+        <li><a data-toggle="tab" href="#menu1" >Itens</a></li>
+        <!--<li><a data-toggle="tab" href="#menu2">Entrega</a></li>-->
+        <!--<li><a data-toggle="tab" href="#menu2">Parcelas</a></li>-->
+        <!--<li><a data-toggle="tab" href="#menu2">Observações</a></li>-->
+        <!--<li><a href="#">Pedido</a></li>-->
+    </ul>
+</div>
+
+<!--Container do Formulário-->
 <div class="container">
-<div class="tab-content">
+<div class="tab-content"><!--inicio aba cliente --->
   <div id="listaItens" class="tab-pane fade in active col-sm-12">
     <form>
             <div class="grid">
@@ -55,18 +81,19 @@
                     <div class="form-group col-sm-4">
                         <label for="idCliente">Id do Cliente</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="idClientePedido">
+                            <input type="text" class="form-control" id="idClientePedido" value='<?= $pedido->id_cliente?>'>
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#consultarClienteModal" tabindex="-1">
                                     <i class="fa fa-question-circle-o"></i>
                                 </button>
                             </div>   
                         </div>
                     </div>
-                    <div class="form-group col-sm-4">
+                     
+                    <div class="form-group col-sm-8">
                         <label for="nomeCliente">Nome do Cliente</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="nomeCliente" readonly="readonly" value="dandan" tabindex="-1" >
+                            <input type="text" class="form-control" id="nomeCliente" readonly="readonly" tabindex="-1" value='<?= $cliente->nome ?>'>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1" disabled="disabled">
                                     <i class="fa fa-question-circle-o"></i>
@@ -75,9 +102,21 @@
                         </div>    
                     </div>
                     <div class="form-group col-sm-4">
+                        <label for="idPedido">Id do Pedido</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="idPedido" readonly="readonly" tabindex="-1" value='<?= $pedido->id?>' >
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1" disabled="disabled">
+                                    <i class="fa fa-question-circle-o"></i>
+                                </button>
+                            </div>   
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-sm-4 pull-right" >
                         <label for="dataEntregaPedido">Data da Entrega</label>
                         <div class="input-group">
-                            <input type="text" class="form-control inputData" id="dataEntregaPedido">
+                            <input type="text" class="form-control inputData" id="dataEntregaPedido" value='<?= $pedido->data_entrega ?>'>
                             <span class="input-group-addon"><a data-toggle="modal" data-target="#adicionarItemModal"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a></span>
                         </div>
                 </div>
@@ -85,21 +124,22 @@
                 <div class="row">
                     <div class="form-group col-sm-12">
                          <label for="observacaoPedido">Observações</label>
-              
-                         <textarea class="form-control" rows="4" id="observacaoPedido" placeholder="Observações do pedido"></textarea>
-                            
+                            <textarea class="form-control" rows="4" id="observacaoPedido" placeholder="Observações do pedido"></textarea>
                           </div>
                 </div>
             </div>
-           
-        </form>   
-  </div>
+        </form>
+    <button type="button" class="btn btn-success" id='adicionarPedido'>Incluir</button>
+  </div><!-- fim aba cliente -->
+    
   <div id="menu1" class="tab-pane fade">
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
-    <button type="button" class="btn btn-warning" >Histórico</button>
-    <button type="button" class="btn btn-default" >Consultar Estoque</button>
+    <!--<button type="button" class="btn btn-warning" >Histórico</button>-->
+    <!--<button type="button" class="btn btn-default" >Consultar Estoque</button>-->
     <div id="menu11">
     </div>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#adicionarItemModal">Confirmar</button>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionarItemModal">Gerar Financeiro</button>
   </div>
   <div id="menu2" class="tab-pane fade">
     <h3>Menu 2</h3>
@@ -107,15 +147,11 @@
   </div>
 </div>    
 </div>    
-            
+<!--Container dos Botões-->            
 <div class="container">        
-        <button type="button" class="btn btn-success" id='adicionarPedido'>Incluir</button>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
-        <button type="button" class="btn btn-warning" >Histórico</button>
-        <button type="button" class="btn btn-default" >Consultar Estoque</button>
+    
 </div>
-
-  <!-- Modal - Adicionar Item -->
+<!-- Modal - Adicionar Item -->
   <div class="modal fade" id="adicionarItemModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -125,14 +161,18 @@
         </div>
         <div class="modal-body">
             <div class="row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-2">
             <label for="idProdutoModal">Código</label>
-            <input type="text" class="form-control" id="idProdutoModal" placeholder="código">
+            <input type="text" class="form-control" id="idProdutoModal">
         </div>
-        <div class="form-group col-sm-8">
+        <div class="form-group col-sm-6">
             <label for="nomeProdutoModal">Nome</label>
-            <input type="text" class="form-control" id="nomeProdutoModal" placeholder="nome">
+            <input type="text" class="form-control" id="nomeProdutoModal">
         </div>
+        <div class="form-group col-sm-4">
+            <label for="dataEntregaModal">Data Entrega</label>
+            <input type="text" class="form-control inputData" id="dataEntregaModal" value='<?= $pedido->data_entrega ?>'>
+        </div>        
         </div>
         <div class="row">
         <div class="form-group col-sm-4">
@@ -141,11 +181,11 @@
         </div>
         <div class="form-group col-sm-4">
             <label for="valor">Valor</label>
-            <input type="number" class="form-control" id="valorItem" placeholder="">
+            <input type="text" class="form-control dinheiro" id="valorItem" placeholder="">
         </div>
         <div class="form-group col-sm-4">
             <label for="totalItem">Total</label>
-            <input type="number" class="form-control" id="totalItem" placeholder="">
+            <input type="text" class="form-control dinheiro" id="totalItem" placeholder="">
         </div>        
             </div>
                 
@@ -157,7 +197,44 @@
       </div>
     </div>
   </div>
+
+<!-- Modal - Consultar cliente -->
+  <div class="modal fade" id="consultarClienteModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Consultar clientes ativos</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+               
+                <div class="form-group col-sm-6">
+                    <label for="nomeClienteModal">Nome</label>
+                    <input type="text" class="form-control" id="nomeClienteModal">
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="buscarCliente">Pesquisa</label>
+                    <button type="button" class="btn btn-success" id="buscarCliente">Pesquisar</button>   
+                </div>
+            </div>
+            
+            <div class="row">
+                <div id="listaClienteModal">
+                    <?php //require 'listar_clientes_ativos.php' ?>
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
    
+
 
 
     <!-- Bootstrap core JavaScript
@@ -169,6 +246,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript" src="/siven/util/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/siven/util/jquery.mask.min.js"></script>
     <script type="text/javascript" src="index.js"></script> 
   </body>
 </html>

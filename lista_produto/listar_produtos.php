@@ -7,7 +7,7 @@ require_once ($path . '/siven/model/conexao.php');
 $listaProdutos=Produto::read($conexao,true);
 //var_dump($listaProposta);
 $html="<div class='table-responsive'>";
-$html.="<table id='tabelaProposta' class='table table-hover' cellspacing='0' width='100%'>";
+$html.="<table id='tabelaProposta' class='table table-hover table-condensed' cellspacing='0' width='100%'>";
 $html.='<thead>';
 $html.='<tr>';
 $html.="<th class='text-center'>#</th>";

@@ -1,11 +1,20 @@
 $( document ).ready(function() {
-    
-    var pedido = 
-    
-    
-    //carregar datepicker
-    $( ".inputData" ).datepicker({
-    dateFormat: 'dd/mm/yy',
+
+//nome amigavel para variáveis input
+var input = {
+    idCliente: $('#idClientePedido'),
+    nomeCliente: $('#nomeCliente'),
+    idPedido: $('#idPedido'),
+    DataEntrega: $('#dataEntrega'),
+    Observacoes: $('#observacoes'),
+    dataEntregaModal: $('#dataEntregaModal'),
+    idClienteModal: $('#idClienteModal'),
+    nomeCLienteModal: $('#nomeClienteModal')   
+    };     
+          
+//carregar classe datepicker
+$( ".inputData" ).datepicker({
+    dateFormat: 'dd-mm-yy',
     dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
     dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
     dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
@@ -15,16 +24,29 @@ $( document ).ready(function() {
     prevText: 'Anterior'
 });//fim do datepicker
 
+//mascára dinheiro
+$( ".dinheiro" ).mask('000.000.000.000.000,00', {reverse: true});
+
+//carregar itens do pedido
+$('#menu11').load('listar_itens.php?id_pedido='+input.idPedido.val());
+
 //adicionar pedido
 $(document).on('click','#adicionarPedido',function(){
-    
+    //$(this).prop('disabled','disabled');
     $.post('inserir_pedido.php',{
-        idCliente: '1',
-        dataInclusao: $('#nomeClientePedido').val(),
+        idCliente: $('#idClientePedido').val(),
         dataEntrega: $('#dataEntregaPedido').val(),
         observacao: $('#observacaoPedido').val()
     }, function(data){
-      alert(data);  
+        if(data!=0){
+            console.log(data);
+            input.idPedido.val(data);
+            input.dataEntregaModal.val(input.DataEntrega.val());
+            $('#adicionarPedido').prop("disabled",true);
+            $('.nav nav-tabs').append("<li><a data-toggle='tab' href='#menu12' >Itens</a></li>");    
+        }else{
+            alert(data);
+        }
     });//fim do post
     });//fim da função clique 
 
@@ -32,15 +54,15 @@ $(document).on('click','#adicionarPedido',function(){
 $(document).on('click','#adicionarItem',function(){
     
     $.post('inserir_item.php',{
-        idPedido: '1',
+        idPedido: input.idPedido.val(),
         codigoItem: $('#idProdutoModal').val(),
         qtdItem: $('#qtdItem').val(),
         valorItem: $('#valorItem').val(),
-        totalItem: $('#totalItem').val()
+        totalItem: $('#totalItem').val(),
+        dataEntregaItem: input.dataEntregaModal.val()
     }, function(data){
       alert(data);
-      
-      $('#menu11').load('listar_itens.php?id_pedido=1');
+      $('#menu11').load('listar_itens.php?id_pedido='+input.idPedido.val());
     });//fim do post
     });//fim da função clique
 
@@ -55,8 +77,7 @@ $(document).on('change','#idClientePedido',function(){
       $('#nomeCliente').val(clienteJson.nome);
     });//fim do post
     });//fim da função change idClientePedido
-    
-    
+     
 //carregar dados do produto
 $(document).on('change','#idProdutoModal',function(){
     
@@ -66,6 +87,7 @@ $(document).on('change','#idProdutoModal',function(){
       //alert(data);
       var produtoJson = JSON.parse(data);
       $('#nomeProdutoModal').val(produtoJson.nome);
+      $('#nomeProdutoModal').val(produtoJson.nome);
     });//fim do post
     });//fim da função change idClientePedido 
     
@@ -73,13 +95,27 @@ $(document).on('change','#idProdutoModal',function(){
 $(document).on('focus','#totalItem',function(){
     var total = Number($('#qtdItem').val())*Number($('#valorItem').val());
     $('#totalItem').val(total);
-    
-   
     });//fim da função change total do item 
 
-//carregar itens do pedido
-$('#menu11').load('listar_itens.php?id_pedido=1');
 
+//buscar cliente modal
+$(document).on('click','#buscarCliente',function(){
+ let idCliente=input.idClienteModal.val()   ;
+ let nomeCliente=input.nomeCLienteModal.val();
+
+$('#listaClienteModal').load('listar_clientes_ativos.php?id_cliente='+idCliente+'&nome_cliente='+nomeCliente);
+
+});
+
+//selecionar cliente modal
+$(document).on('click','.selecionaCliente',function(){
+ 
+ let id=$(this).attr("data-id");
+  $('#idClientePedido').val(id);
+  $('#idClientePedido').trigger("change");
+ $('#consultarClienteModal').modal('toggle');
+ 
+});
 
 
 });

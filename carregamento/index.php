@@ -1,74 +1,56 @@
-<?php
-$path = $_SERVER['DOCUMENT_ROOT'];
-require_once ($path . '/siven/model/conexao.php');
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    
+    
 
-function arrayCarregamentoData($conexao,$data){
-    $resultado=array();
-    $resultados=array();
-      
-    $sql="SELECT nome,unidade,soma FROM carregamento_data where data_entrega = '$data'";  
-    //echo $sql;
-    //testa se o query está correto    
-    if($query=$conexao->prepare($sql)){
-        //passando variaveis para a query
-        try{
-            //executando a consulta
-            $resultado=$query->execute();
-            $query->bind_result($nome,$unidade,$soma);
-           //colocando resultados no array
-            while ($query->fetch()) {    
-              array_push($resultados,$resultado=['nome'=>$nome,'unidade'=>$unidade,'soma'=>$soma]);      
-            } 
-           //testa o resultado
-            if (!$resultado) {
-                $message  = 'Invalid query: ' . $conexao->error . "\n";
-                //$message .= 'Whole query: ' . $resultado;
-                die($message);
-            }//end of if
-        }//end of try
-        catch(Exception $e){
-            echo "erro";
-        }
-    }else{
-        echo "Há um problema com a sintaxe inicial da query SQL";
-    }
-    return $resultados;
-}//fim da função loteDisponivelArray
+    <title>Siven - São José Bebidas</title>
 
-$data=New DateTime('15-09-2017');
-//var_dump($data);
-$data1=$data;
-$data=$data->format('Y-m-d');        
-//var_dump($data);
-$resultado=arrayCarregamentoData($conexao, $data);
-//var_dump($resultado);   
+    <!-- Bootstrap core CSS -->
+    <link href="/siven/util/bootstrap.css" rel="stylesheet">
 
-$data1=$data1->format('d-m-Y');
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-$html="<div class='table-responsive'>";
-$html.="<h3>Carregamento do dia $data1 </h3>";
-$html.="<table id='tabelaItens' class='table table-hover' cellspacing='0' width='100%'>";
-$html.='<thead>';
-$html.='<tr>';
-$html.="<th class='text-center'>Produto</th>";
-$html.="<th class='text-center'>Tipo</th>";
-$html.="<th class='text-center'>Quantidade</th>";
-$html.="</tr>";
-$html.="</thead>";
-$html.="<tbody>";
-    for ($i = 0; $i < count ($resultado); $i++) {
-    $html.="<tr>";
-    $html.="<td class='text-center'>".$resultado[$i]['nome']."</td>";
-    $html.="<td class='text-center'>".$resultado[$i]['unidade']."</td>";
-    $html.="<td class='text-center'>".$resultado[$i]['soma']."</td>";
-    $html.="<td class='text-center'><a href='#'><i class='fa fa-pencil-square-o fa-4 editar'></i></a> <i class='fa fa-trash-o fa-4' aria-hidden='true'></i></td>";
-    $html.="</tr>";
-}
-$html.="</tbody>";
-$html.="</table>";
-$html.="</div>";
-
-echo $html;
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+   
 
 
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
+  <body>
+
+    <?php require("../header.php") ?>
+
+<div class="container">
+    <h1>Mapa de Entregas</h1><hr> 
+    <!--<a  class="btn btn-success" href="/siven/cadastro_produto">Novo</a>        -->
+</div> <!-- /container -->
+
+<div class="container" id='listaPedidos'>
+     <?php require 'listar_entrega.php'?>
+</div> <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/siven/util/bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="index.js"></script> 
+  </body>
+</html>

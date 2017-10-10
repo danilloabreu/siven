@@ -23,14 +23,14 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vendas <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/siven/inserir_pedido">Pedidos</a></li>
-                <li><a href="#">Consultar</a></li>
+                <li><a href="/siven/lista_pedido">Pedidos</a></li>
+                <!--<li><a href="#">Consultar</a></li>-->
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Entregas<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Gerar lista de carga</a></li>
+                <li><a href="/siven/carregamento/">Mapa de Carregamento</a></li>
                 <li><a href="#">Pedidos de descarga </a></li>
               </ul>
             </li>

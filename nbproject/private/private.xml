@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/SiVen/model/Unidade.php</file>
-            <file>file:/C:/xampp/htdocs/SiVen/cadastro_produto/index.php</file>
-            <file>file:/C:/xampp/htdocs/SiVen/cadastro_produto/inserir_produto.php</file>
-            <file>file:/C:/xampp/htdocs/SiVen/model/Tipo.php</file>
-            <file>file:/C:/xampp/htdocs/SiVen/cadastro_produto/index.js</file>
+            <file>file:/C:/xampp/htdocs/SiVen/inserir_pedido/inserir_pedido.php</file>
+            <file>file:/C:/xampp/htdocs/SiVen/model/Pedido.php</file>
+            <file>file:/C:/xampp/htdocs/SiVen/inserir_pedido/index.js</file>
+            <file>file:/C:/xampp/htdocs/SiVen/inserir_pedido/index.php</file>
         </group>
     </open-files>
 </project-private>

@@ -143,7 +143,7 @@ public function create($conexao){
                 $this->data_inclusao,
                 $this->is_canceled,
                 $this->is_deleted,
-                $this->is_canceled,        
+                $this->data_entrega,        
                 $this->observacao        
                 );
         $resultado=$query->execute();
@@ -153,15 +153,16 @@ public function create($conexao){
         }
        //testa o resultado
         if (!$resultado) {
-        $message  = 'Invalid query: ' . $conexao->error . "\n";
+        $message  = 'Invalid query: ' . $conexao->errno . "\n";
         //$message .= 'Whole query: ' . $resultado;
-		//throw new Exception('Erro no movimento');
+		throw new Exception('Erro no movimento');
         die($message);
         }
         } else {
         echo "Há um problema com a sintaxe inicial da query SQL";
+        
         }
-         
+        return true; 
      
  }//fim da funçao create
   
@@ -170,15 +171,28 @@ public function update($conexao){
     //iniciando a conexão
     $query =$conexao->stmt_init();    
     //testa se o query estã correto
-    if($query=$conexao->prepare("UPDATE cliente SET id=?,nome=?,endereco=?,telefone=?)"
-                . "VALUES (?,?,?,?)")){
+    if($query=$conexao->prepare(""
+            . "UPDATE pedido "
+            . "SET "
+            . "id=?,"
+            . "id_cliente=?,"
+            . "data_inclusao=?,"
+            . "is_canceled=?,"
+            . "is_deleted=?,"
+            . "data_entrega=?,"
+            . "observacao=? "
+            . "WHERE id=?")){
         //passando variaveis para a query
             try{              
-                $query->bind_param('ssss',
-                $this->getId(),
-                $this->getNome(),
-                $this->getEndereco(),
-                $this->getTelefone()
+                $query->bind_param('ssssssss',
+                $this->id,
+                $this->id_cliente,
+                $this->data_inclusao,
+                $this->is_canceled,
+                $this->is_deleted,        
+                $this->data_entrega,
+                $this->observacao,
+                $this->id
                 );
         $resultado=$query->execute();
         }
