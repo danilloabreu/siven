@@ -131,10 +131,10 @@ $alterar=false;
                 </div>
             </div>
         </form>
-    <?php if($alterar){ 
+    <?php if(!$alterar){ 
     echo "<button type='button' class='btn btn-success' id='adicionarPedido'>Incluir</button>";
     }else{
-    echo "<button type='button' class='btn btn-success' id='alterarPedido'>Alterar</button>";    
+    echo "<button type='button' class='btn btn-primary' id='alterarPedido'>Alterar</button>";    
     } 
         ?>
             </div><!-- fim aba cliente -->
