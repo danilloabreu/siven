@@ -9,7 +9,9 @@ var input = {
     Observacoes: $('#observacoes'),
     dataEntregaModal: $('#dataEntregaModal'),
     idClienteModal: $('#idClienteModal'),
-    nomeCLienteModal: $('#nomeClienteModal')   
+    nomeClienteModal: $('#nomeClienteModal'),
+    idProdutoModal: $('#idProdutoModal'),
+    nomeProdutoPesquisaModal: $('#nomeProdutoPesquisaModal') 
     };     
           
 //carregar classe datepicker
@@ -39,11 +41,12 @@ $(document).on('click','#adicionarPedido',function(){
         observacao: $('#observacaoPedido').val()
     }, function(data){
         if(data!=0){
-            console.log(data);
             input.idPedido.val(data);
             input.dataEntregaModal.val(input.DataEntrega.val());
             $('#adicionarPedido').prop("disabled",true);
-            $('.nav nav-tabs').append("<li><a data-toggle='tab' href='#menu12' >Itens</a></li>");    
+            $('.nav nav-tabs').append("<li><a data-toggle='tab' href='#menu12' >Itens</a></li>");
+            alert("Pedido incluido com sucesso!");
+            $('.detalhesPedido').attr('readonly','readonly');
         }else{
             alert(data);
         }
@@ -93,19 +96,27 @@ $(document).on('change','#idProdutoModal',function(){
     
 //total do item 
 $(document).on('focus','#totalItem',function(){
-    var total = Number($('#qtdItem').val())*Number($('#valorItem').val());
-    $('#totalItem').val(total);
+    var total = Number($('#qtdItem').val())*Number($('#valorItem').cleanVal());
+    $('#totalItem').val(total).unmask().mask('000.000.000.000.000,00', {reverse: true});
     });//fim da função change total do item 
-
 
 //buscar cliente modal
 $(document).on('click','#buscarCliente',function(){
  let idCliente=input.idClienteModal.val()   ;
- let nomeCliente=input.nomeCLienteModal.val();
+ let nomeCliente=input.nomeClienteModal.val();
 
 $('#listaClienteModal').load('listar_clientes_ativos.php?id_cliente='+idCliente+'&nome_cliente='+nomeCliente);
 
 });
+
+//buscar produto modal
+$(document).on('click','#buscarProduto',function(){
+ let idProduto=input.idProdutoModal.val()   ;
+ let nomeProdutoPesquisa=input.nomeProdutoPesquisaModal.val();
+$('#listaProdutoModal').load('listar_produtos_ativos.php?id_produto='+idProduto+'&nome_produto='+nomeProdutoPesquisa);
+
+});
+
 
 //selecionar cliente modal
 $(document).on('click','.selecionaCliente',function(){
@@ -117,6 +128,21 @@ $(document).on('click','.selecionaCliente',function(){
  
 });
 
+//selecionar produto modal
+$(document).on('click','.selecionaProduto',function(){
+ 
+ let id=$(this).attr("data-id");
+  $('#idProdutoModal').val(id);
+  $('#idProdutoModal').trigger("change");
+  $('#consultarProdutoModal').modal('toggle');
+ 
+});
+
+//selecionar produto modal
+$(document).on('click','#adicionarItemPedido',function(){
+ $('.modalAdicionarItem').val('');
+ $('#dataEntregaModal').val($('#dataEntregaPedido').val());
+});
 
 });
 

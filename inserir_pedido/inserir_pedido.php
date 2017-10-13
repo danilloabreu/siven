@@ -5,7 +5,7 @@ require_once ($path . '/siven/model/conexao.php');
 
 
 
-/*
+
 //dados vindo do formulário
 $id=null;
 $id_cliente=$_POST['idCliente'];
@@ -13,15 +13,15 @@ $data_entrega=$_POST['dataEntrega'];
 $observacao=$_POST['observacao'];
 $is_canceled=null;
 $is_deleted=null;
-*/
 
+/*
 $id=107;
 $id_cliente=1;
 $data_entrega=null;
 $observacao=null;
 $is_canceled=null;
 $is_deleted=null;
-
+*/
 
 //####convertendo data em caso de HTML 5#####
 //preparando a data para inserir no banco

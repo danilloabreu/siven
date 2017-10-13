@@ -16,6 +16,7 @@ $cliente = Cliente::read($conexao, "id=$pedido->id_cliente");
 $cliente=$cliente[0];
 $alterar=true;
 
+
 }else{
 $pedido= new Pedido($id=null, $id_cliente=null, $data_inclusao=null, $is_canceled=null, $is_deleted=null, $data_entrega=null, $observacao=null);
 $cliente = new Cliente($id=null, $nome=null, $telefone=null, $endereco=null);
@@ -83,7 +84,7 @@ $alterar=false;
                     <div class="form-group col-sm-4">
                         <label for="idCliente">Id do Cliente</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="idClientePedido" value='<?= $pedido->id_cliente?>'>
+                            <input type="text" class="form-control detalhesPedido" id="idClientePedido" value='<?= $pedido->id_cliente?>'>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#consultarClienteModal" tabindex="-1">
                                     <i class="fa fa-question-circle-o"></i>
@@ -95,7 +96,7 @@ $alterar=false;
                     <div class="form-group col-sm-8">
                         <label for="nomeCliente">Nome do Cliente</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="nomeCliente" readonly="readonly" tabindex="-1" value='<?= $cliente->nome ?>'>
+                            <input type="text" class="form-control detalhesPedido" id="nomeCliente" readonly="readonly" tabindex="-1" value='<?= $cliente->nome ?>'>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1" disabled="disabled">
                                     <i class="fa fa-question-circle-o"></i>
@@ -106,7 +107,7 @@ $alterar=false;
                     <div class="form-group col-sm-4">
                         <label for="idPedido">Id do Pedido</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="idPedido" readonly="readonly" tabindex="-1" value='<?= $pedido->id?>' >
+                            <input type="text" class="form-control detalhesPedido" id="idPedido" readonly="readonly" tabindex="-1" value='<?= $pedido->id?>' >
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#adicionarItemModal" tabindex="-1" disabled="disabled">
                                     <i class="fa fa-question-circle-o"></i>
@@ -118,7 +119,7 @@ $alterar=false;
                     <div class="form-group col-sm-4 pull-right" >
                         <label for="dataEntregaPedido">Data da Entrega</label>
                         <div class="input-group">
-                            <input type="text" class="form-control inputData" id="dataEntregaPedido" value='<?= $pedido->data_entrega ?>'>
+                            <input type="text" class="form-control inputData detalhesPedido" id="dataEntregaPedido" value='<?= $pedido->data_entrega ?>'>
                             <span class="input-group-addon"><a data-toggle="modal" data-target="#adicionarItemModal"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a></span>
                         </div>
                 </div>
@@ -126,13 +127,13 @@ $alterar=false;
                 <div class="row">
                     <div class="form-group col-sm-12">
                          <label for="observacaoPedido">Observações</label>
-                            <textarea class="form-control" rows="4" id="observacaoPedido" placeholder="Observações do pedido"></textarea>
+                            <textarea class="form-control detalhesPedido" rows="4" id="observacaoPedido" placeholder="Observações do pedido"><?= $pedido->observacao ?></textarea>
                           </div>
                 </div>
             </div>
         </form>
     <?php if(!$alterar){ 
-    echo "<button type='button' class='btn btn-success' id='adicionarPedido'>Incluir</button>";
+    echo "<button type='button' class='btn btn-success' id='adicionarPedido'>Inserir</button>";
     }else{
     echo "<button type='button' class='btn btn-primary' id='alterarPedido'>Alterar</button>";    
     } 
@@ -144,7 +145,7 @@ $alterar=false;
     <!--<button type="button" class="btn btn-default" >Consultar Estoque</button>-->
     <div id="menu11">
     </div>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
+    <button type="button" id="adicionarItemPedido" class="btn btn-info" data-toggle="modal" data-target="#adicionarItemModal">Adicionar item</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#adicionarItemModal">Confirmar</button>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionarItemModal">Gerar Financeiro</button>
   </div>
@@ -168,31 +169,40 @@ $alterar=false;
         </div>
         <div class="modal-body">
             <div class="row">
-        <div class="form-group col-sm-2">
-            <label for="idProdutoModal">Código</label>
-            <input type="text" class="form-control" id="idProdutoModal">
-        </div>
-        <div class="form-group col-sm-6">
-            <label for="nomeProdutoModal">Nome</label>
-            <input type="text" class="form-control" id="nomeProdutoModal">
-        </div>
-        <div class="form-group col-sm-4">
-            <label for="dataEntregaModal">Data Entrega</label>
-            <input type="text" class="form-control inputData" id="dataEntregaModal" value='<?= $pedido->data_entrega ?>'>
-        </div>        
+                <div class="form-group col-sm-2">
+                    <label for="idProdutoModal">Código</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control modalAdicionarItem" id="idProdutoModal">
+                            <div class="input-group-btn ">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#consultarProdutoModal" tabindex="-1">
+                                    <i class="fa fa-question-circle-o"></i>
+                                </button>
+                            </div>   
+                    </div>
+                </div>  
+            <div class="form-group col-sm-6">
+                <label for="nomeProdutoModal">Nome</label>
+                <input type="text" class="form-control modalAdicionarItem" id="nomeProdutoModal">
+            </div>
+            <div class="form-group col-sm-4">
+                <label for="dataEntregaModal">Data Entrega</label>
+                <input type="text" class="form-control inputData modalAdicionarItem" id="dataEntregaModal" value='<?= $pedido->data_entrega ?>'>
+            </div>        
         </div>
         <div class="row">
         <div class="form-group col-sm-4">
+            <form>
             <label for="qtd">Quantidade</label>
-            <input type="number" class="form-control" id="qtdItem" placeholder="">
-        </div>
+            <input type="number" class="form-control modalAdicionarItem" id="qtdItem" placeholder="">
+        </form>
+            </div>
         <div class="form-group col-sm-4">
             <label for="valor">Valor</label>
-            <input type="text" class="form-control dinheiro" id="valorItem" placeholder="">
+            <input type="text" class="form-control dinheiro modalAdicionarItem" id="valorItem" placeholder="">
         </div>
         <div class="form-group col-sm-4">
             <label for="totalItem">Total</label>
-            <input type="text" class="form-control dinheiro" id="totalItem" placeholder="">
+            <input type="text" class="form-control dinheiro modalAdicionarItem" id="totalItem" placeholder="">
         </div>        
             </div>
                 
@@ -240,6 +250,42 @@ $alterar=false;
       </div>
     </div>
   </div>
+  
+<!-- Modal - Consultar produto -->
+  <div class="modal fade" id="consultarProdutoModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Consultar produtos ativos</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+               
+                <div class="form-group col-sm-6">
+                    <label for="nomeProdutoPesquisaModal">Nome</label>
+                    <input type="text" class="form-control" id="nomeProdutoPesquisaModal">
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="buscarProduto">Pesquisa</label>
+                    <button type="button" class="btn btn-success" id="buscarProduto">Pesquisar</button>   
+                </div>
+            </div>
+            
+            <div class="row">
+                <div id="listaProdutoModal">
+                    <?php //require 'listar_clientes_ativos.php' ?>
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- Fim do Modal - Consultar produto -->
    
 
 

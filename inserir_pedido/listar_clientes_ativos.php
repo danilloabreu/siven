@@ -7,7 +7,7 @@ require_once ($path . '/siven/model/conexao.php');
 $idCliente= $_GET['id_cliente'];
 $nomeCliente= $_GET['nome_cliente'];
 
-$listaClientes=Cliente::read($conexao,"nome like '%$nomeCliente%'");
+$listaClientes=Cliente::read($conexao,"nome LIKE '%$nomeCliente%' AND is_inativo IS NULL ");
  
 
 //var_dump($listaProposta);
